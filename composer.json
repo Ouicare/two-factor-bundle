@@ -1,5 +1,5 @@
 {
-    "name": "ouicare/two-factor-bundle",
+    "name": "scheb/two-factor-bundle",
     "type": "symfony-bundle",
     "description": "Provides two-factor authenticaton for Symfony2",
     "keywords": ["two-factor", "two-step", "authentication", "symfony2"],
