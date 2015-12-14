@@ -1,6 +1,7 @@
 scheb/two-factor-bundle
 =======================
 Adapted by Ouicare Team to use inwebo beta
+
 This Symfony2 bundle provides two-factor authentication for your website. Currently it is shipped with two authentication methods:
 
   - Google Authenticator (via sonata-project/google-authenticator)
