@@ -1,9 +1,9 @@
 {
-    "name": "scheb/two-factor-bundle",
+    "name": "ouicare/two-factor-bundle",
     "type": "symfony-bundle",
     "description": "Provides two-factor authenticaton for Symfony2",
     "keywords": ["two-factor", "two-step", "authentication", "symfony2"],
-    "homepage": "https://github.com/scheb/two-factor-bundle",
+    "homepage": "https://github.com/Ouicare/two-factor-bundle",
     "license": "MIT",
     "authors": [
         {
