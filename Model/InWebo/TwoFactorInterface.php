@@ -1,6 +1,6 @@
 <?php
 
-namespace Scheb\TwoFactorBundle\Model\Inwebo;
+namespace Scheb\TwoFactorBundle\Model\InWebo;
 
 interface TwoFactorInterface {
 
@@ -17,12 +17,12 @@ interface TwoFactorInterface {
      *
      * @return string|null
      */
-    public function getInweboAuthenticatorSecret();
+    public function getInWeboAuthenticatorSecret();
 
     /**
      * Set the Inwebo Authenticator secret
      *
      * @param integer $inweboAuthenticatorSecret
      */
-    public function setInweboAuthenticatorSecret($inweboAuthenticatorSecret);
+    public function setInWeboAuthenticatorSecret($inweboAuthenticatorSecret);
 }
