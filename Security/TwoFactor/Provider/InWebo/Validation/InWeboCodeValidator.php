@@ -4,12 +4,12 @@ namespace Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\Validation;
 
 use Scheb\TwoFactorBundle\Model\InWebo\TwoFactorInterface;
 
-class EmailCodeValidator implements CodeValidatorInterface {
+class InWeboCodeValidator implements CodeValidatorInterface {
 
     /**
      * Validates the code, which was entered by the user
      *
-     * @param  \Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface $user
+     * @param  \Scheb\TwoFactorBundle\Model\InWebo\TwoFactorInterface $user
      * @param  integer                                               $code
      * @return bool
      */

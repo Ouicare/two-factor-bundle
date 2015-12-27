@@ -25,6 +25,7 @@ class BackupCodeValidator implements CodeValidatorInterface {
      * @param \Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Email\Validation\CodeValidatorInterface $validator
      */
     public function __construct(BasicBackupCodeValidator $backupCodeValidator, CodeValidatorInterface $validator) {
+
         $this->backupCodeValidator = $backupCodeValidator;
         $this->validator = $validator;
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Scheb\TwoFactorBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -7,14 +8,12 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 
-class SchebTwoFactorExtension extends Extension
-{
+class SchebTwoFactorExtension extends Extension {
 
     /**
      * {@inheritDoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
-    {
+    public function load(array $configs, ContainerBuilder $container) {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
@@ -26,6 +25,13 @@ class SchebTwoFactorExtension extends Extension
         $container->setParameter("scheb_two_factor.google.server_name", $config['google']['server_name']);
         $container->setParameter("scheb_two_factor.google.issuer", $config['google']['issuer']);
         $container->setParameter("scheb_two_factor.google.template", $config['google']['template']);
+        $container->setParameter("scheb_two_factor.inwebo.service_id", $config['inwebo']['service_id']);
+        $container->setParameter("scheb_two_factor.inwebo.certificate", $config['inwebo']['certificate']);
+        $container->setParameter("scheb_two_factor.inwebo.certificate_passphrase", $config['inwebo']['certificate_passphrase']);
+        $container->setParameter("scheb_two_factor.inwebo.api_base_url", $config['inwebo']['api_base_url']);
+        $container->setParameter("scheb_two_factor.inwebo.error_trace", $config['inwebo']['error_trace']);
+        $container->setParameter("scheb_two_factor.inwebo.rest_error_trace", $config['inwebo']['rest_error_trace']);
+        $container->setParameter("scheb_two_factor.inwebo.template", $config['inwebo']['template']);
         $container->setParameter("scheb_two_factor.trusted_computer.enabled", $config['trusted_computer']['enabled']);
         $container->setParameter("scheb_two_factor.trusted_computer.cookie_name", $config['trusted_computer']['cookie_name']);
         $container->setParameter("scheb_two_factor.trusted_computer.cookie_lifetime", $config['trusted_computer']['cookie_lifetime']);
@@ -40,6 +46,9 @@ class SchebTwoFactorExtension extends Extension
         }
         if ($config['google']['enabled'] === true) {
             $this->configureGoogle($container);
+        }
+        if ($config['inwebo']['enabled'] === true) {
+            $this->configureInWebo($container);
         }
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
@@ -58,8 +67,7 @@ class SchebTwoFactorExtension extends Extension
      * @param  array                                                                     $config
      * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      */
-    private function configurePersister(ContainerBuilder $container, $config)
-    {
+    private function configurePersister(ContainerBuilder $container, $config) {
         // No custom persister configured
         if (!$config['persister']) {
             return;
@@ -86,8 +94,7 @@ class SchebTwoFactorExtension extends Extension
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param array                                                   $config
      */
-    private function configureEmail(ContainerBuilder $container, $config)
-    {
+    private function configureEmail(ContainerBuilder $container, $config) {
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('security_email.xml');
         $mailerService = $config['email']['mailer'];
@@ -102,9 +109,19 @@ class SchebTwoFactorExtension extends Extension
      *
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    private function configureGoogle(ContainerBuilder $container)
-    {
+    private function configureGoogle(ContainerBuilder $container) {
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('security_google.xml');
     }
+
+    /**
+     * Configure InWebo Authenticator two-factor authentication
+     *
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function configureInWebo(ContainerBuilder $container) {
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('security_inwebo.xml');
+    }
+
 }

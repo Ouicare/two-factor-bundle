@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="scheb_two_factor.security.inwebo.class">Ouicare\InWebo\InWebo</parameter>
+        <parameter key="scheb_two_factor.security.inwebo_authenticator.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\InWeboAuthenticator</parameter>
+        <parameter key="scheb_two_factor.security.inwebo.provider.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\TwoFactorProvider</parameter>
+        <parameter key="scheb_two_factor.security.inwebo.inwebo_code_validator.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\Validation\InWeboCodeValidator</parameter>
+        <parameter key="scheb_two_factor.security.inwebo.backup_code_validator.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\Validation\BackupCodeValidator</parameter>
+    </parameters>
+    <services>
+        <service id="scheb_two_factor.security.inwebo" class="%scheb_two_factor.security.inwebo.class%">
+            <argument>%scheb_two_factor.inwebo.service_id%</argument>
+            <argument>%scheb_two_factor.inwebo.certificate%</argument>
+            <argument>%scheb_two_factor.inwebo.certificate_passphrase%</argument>
+            <argument>%scheb_two_factor.inwebo.api_base_url%</argument>
+            <argument>%scheb_two_factor.inwebo.error_trace%</argument>
+            <argument>%scheb_two_factor.inwebo.rest_error_trace%</argument>
+        </service>
+        <service id="scheb_two_factor.security.inwebo_authenticator" class="%scheb_two_factor.security.inwebo_authenticator.class%">
+            <argument type="service" id="scheb_two_factor.security.inwebo" />
+        </service>
+        <service id="scheb_two_factor.security.inwebo.inwebo_code_validator" class="%scheb_two_factor.security.inwebo.inwebo_code_validator.class%">
+            <argument type="service" id="scheb_two_factor.security.inwebo_authenticator" />
+        </service>
+        <service id="scheb_two_factor.security.inwebo.backup_code_validator" class="%scheb_two_factor.security.inwebo.backup_code_validator.class%">
+            <argument type="service" id="scheb_two_factor.backup_code_validator" />
+            <argument type="service" id="scheb_two_factor.security.inwebo.inwebo_code_validator" />
+        </service>
+        <service id="scheb_two_factor.security.inwebo.code_validator" alias="scheb_two_factor.security.inwebo.backup_code_validator" />
+        <service id="scheb_two_factor.security.inwebo.provider" class="%scheb_two_factor.security.inwebo.provider.class%">
+            <tag name="scheb_two_factor.provider" alias="inwebo" />
+            <argument type="service" id="scheb_two_factor.security.inwebo_authenticator" />
+            <argument type="service" id="templating" />
+            <argument>%scheb_two_factor.inwebo.template%</argument>
+            <argument>%scheb_two_factor.parameter_names.auth_code%</argument>
+        </service>
+    </services>
+</container>
+
+

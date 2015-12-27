@@ -4,20 +4,21 @@ namespace Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo;
 
 use Scheb\TwoFactorBundle\Model\InWebo\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContext;
-use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\Validation\CodeValidatorInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\Validation\CodeValidatorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorProviderInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\InWeboAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class TwoFactorProvider implements TwoFactorProviderInterface {
 
     /**
-     * @var \Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\Validation\CodeValidatorInterface $authenticator
+     * @var CodeValidatorInterface $authenticator
      */
     private $authenticator;
 
     /**
-     * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
+     * @var EngineInterface $templating
      */
     private $templating;
 
@@ -32,14 +33,14 @@ class TwoFactorProvider implements TwoFactorProviderInterface {
     private $authCodeParameter;
 
     /**
-     * Construct provider for Google authentication
+     * Construct provider for InWebo authentication
      *
-     * @param \Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\Validation\CodeValidatorInterface $authenticator
-     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface                                  $templating
+     * @param CodeValidatorInterface $authenticator
+     * @param EngineInterface                                  $templating
      * @param string                                                                                      $formTemplate
      * @param string                                                                                      $authCodeParameter
      */
-    public function __construct(CodeValidatorInterface $authenticator, EngineInterface $templating, $formTemplate, $authCodeParameter) {
+    public function __construct(InWeboAuthenticator $authenticator, EngineInterface $templating, $formTemplate, $authCodeParameter) {
         $this->authenticator = $authenticator;
         $this->templating = $templating;
         $this->formTemplate = $formTemplate;
@@ -57,7 +58,6 @@ class TwoFactorProvider implements TwoFactorProviderInterface {
         $user = $context->getUser();
         $request = $context->getRequest();
         $session = $context->getSession();
-
         // Display and process form
         $authCode = $request->get($this->authCodeParameter);
         if ($authCode !== null) {

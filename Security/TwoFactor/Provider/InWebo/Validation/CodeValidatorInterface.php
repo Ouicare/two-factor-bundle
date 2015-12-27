@@ -2,7 +2,7 @@
 
 namespace Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\Validation;
 
-use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
+use Scheb\TwoFactorBundle\Model\InWebo\TwoFactorInterface;
 
 interface CodeValidatorInterface {
 

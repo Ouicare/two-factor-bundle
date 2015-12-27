@@ -64,6 +64,7 @@ class Configuration implements ConfigurationInterface {
                 ->scalarNode("api_base_url")->defaultValue("https://api.myinwebo.com")->end()
                 ->scalarNode("error_trace")->defaultFalse()->end()
                 ->scalarNode("rest_error_trace")->defaultFalse()->end()
+                ->scalarNode("template")->defaultValue("SchebTwoFactorBundle:Authentication:form.html.twig")->end()
                 ->end()
                 ->end()
                 ->arrayNode("security_tokens")
