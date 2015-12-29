@@ -9,6 +9,7 @@ use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorProviderInterface
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\InWeboAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\Handler\CodeHandler;
 
 class TwoFactorProvider implements TwoFactorProviderInterface {
 
@@ -16,6 +17,11 @@ class TwoFactorProvider implements TwoFactorProviderInterface {
      * @var CodeValidatorInterface $authenticator
      */
     private $authenticator;
+
+    /**
+     * @var CodeHandler $codeHandler
+     */
+    private $codeHandler;
 
     /**
      * @var EngineInterface $templating
@@ -33,6 +39,11 @@ class TwoFactorProvider implements TwoFactorProviderInterface {
     private $authCodeParameter;
 
     /**
+     * @var boolean $checkOnce
+     */
+    private $checkOnce;
+
+    /**
      * Construct provider for InWebo authentication
      *
      * @param CodeValidatorInterface $authenticator
@@ -40,18 +51,20 @@ class TwoFactorProvider implements TwoFactorProviderInterface {
      * @param string                                                                                      $formTemplate
      * @param string                                                                                      $authCodeParameter
      */
-    public function __construct(InWeboAuthenticator $authenticator, EngineInterface $templating, $formTemplate, $authCodeParameter) {
+    public function __construct(InWeboAuthenticator $authenticator, CodeHandler $codeHandler, EngineInterface $templating, $formTemplate, $authCodeParameter, $checkOnce) {
         $this->authenticator = $authenticator;
+        $this->codeHandler = $codeHandler;
         $this->templating = $templating;
         $this->formTemplate = $formTemplate;
         $this->authCodeParameter = $authCodeParameter;
+        $this->checkOnce = $checkOnce;
     }
 
     public function beginAuthentication(AuthenticationContext $context) {
 // Check if user can do email authentication
         $user = $context->getUser();
-
-        return $user instanceof TwoFactorInterface && $user->getInWeboAuthenticatorSecret();
+        $beginAuth = !$user->getInWeboAuthenticatorSecret() & $this->checkOnce;
+        return $user instanceof TwoFactorInterface && $beginAuth;
     }
 
     public function requestAuthenticationCode(AuthenticationContext $context) {
@@ -62,6 +75,10 @@ class TwoFactorProvider implements TwoFactorProviderInterface {
         $authCode = $request->get($this->authCodeParameter);
         if ($authCode !== null) {
             if ($this->authenticator->checkCode($user, $authCode)) {
+                //get the inwebo alias
+                $alias = $this->authenticator->result['alias'];
+                //Persist the alias to the database to be used in case we do 2FA only once
+                $this->codeHandler->getAndPersist($user, $alias);
                 $context->setAuthenticated(true);
 
                 return new RedirectResponse($request->getUri());

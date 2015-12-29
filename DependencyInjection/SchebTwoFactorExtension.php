@@ -31,6 +31,7 @@ class SchebTwoFactorExtension extends Extension {
         $container->setParameter("scheb_two_factor.inwebo.api_base_url", $config['inwebo']['api_base_url']);
         $container->setParameter("scheb_two_factor.inwebo.error_trace", $config['inwebo']['error_trace']);
         $container->setParameter("scheb_two_factor.inwebo.rest_error_trace", $config['inwebo']['rest_error_trace']);
+        $container->setParameter("scheb_two_factor.inwebo.check_once", $config['inwebo']['check_once']);
         $container->setParameter("scheb_two_factor.inwebo.template", $config['inwebo']['template']);
         $container->setParameter("scheb_two_factor.trusted_computer.enabled", $config['trusted_computer']['enabled']);
         $container->setParameter("scheb_two_factor.trusted_computer.cookie_name", $config['trusted_computer']['cookie_name']);

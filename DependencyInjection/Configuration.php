@@ -65,6 +65,7 @@ class Configuration implements ConfigurationInterface {
                 ->scalarNode("error_trace")->defaultFalse()->end()
                 ->scalarNode("rest_error_trace")->defaultFalse()->end()
                 ->scalarNode("template")->defaultValue("SchebTwoFactorBundle:Authentication:form.html.twig")->end()
+                ->scalarNode("check_once")->defaultTrue()->end()
                 ->end()
                 ->end()
                 ->arrayNode("security_tokens")
