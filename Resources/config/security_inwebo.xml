@@ -3,6 +3,7 @@
     <parameters>
         <parameter key="scheb_two_factor.security.inwebo.class">Ouicare\InWebo\InWebo</parameter>
         <parameter key="scheb_two_factor.security.inwebo_authenticator.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\InWeboAuthenticator</parameter>
+        <parameter key="scheb_two_factor.security.inwebo.code_generator.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\Handler\CodeHandler</parameter>
         <parameter key="scheb_two_factor.security.inwebo.provider.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\TwoFactorProvider</parameter>
         <parameter key="scheb_two_factor.security.inwebo.inwebo_code_validator.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\Validation\InWeboCodeValidator</parameter>
         <parameter key="scheb_two_factor.security.inwebo.backup_code_validator.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\InWebo\Validation\BackupCodeValidator</parameter>
@@ -15,6 +16,9 @@
             <argument>%scheb_two_factor.inwebo.api_base_url%</argument>
             <argument>%scheb_two_factor.inwebo.error_trace%</argument>
             <argument>%scheb_two_factor.inwebo.rest_error_trace%</argument>
+        </service>
+        <service id="scheb_two_factor.security.inwebo.code_generator.class" class="%scheb_two_factor.security.inwebo.code_generator.class%">
+            <argument type="service" id="scheb_two_factor.persister.doctrine" />
         </service>
         <service id="scheb_two_factor.security.inwebo_authenticator" class="%scheb_two_factor.security.inwebo_authenticator.class%">
             <argument type="service" id="scheb_two_factor.security.inwebo" />
