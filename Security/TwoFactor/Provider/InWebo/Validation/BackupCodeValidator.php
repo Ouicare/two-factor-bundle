@@ -16,7 +16,7 @@ class BackupCodeValidator implements CodeValidatorInterface {
     /**
      * @var string
      */
-    private $validator;
+    var $validator;
 
     /**
      * Initialize with the name of the auth code parameter

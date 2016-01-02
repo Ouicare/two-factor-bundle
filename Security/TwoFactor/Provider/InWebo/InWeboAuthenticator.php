@@ -20,9 +20,10 @@ use Scheb\TwoFactorBundle\Model\InWebo\TwoFactorInterface;
 class InWeboAuthenticator {
 
     /**
-     * @var \Ouicare\InWebo\InWebo $authenticator
+     * @var InWebo $authenticator
      */
     var $authenicator;
+    var $result;
 
     /**
      * Construct the InWebo authenticator
@@ -35,12 +36,14 @@ class InWeboAuthenticator {
     /**
      * Validates the code, which was entered by the user
      *
-     * @param  \Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface $user
+     * @param  TwoFactorInterface2 $user
      * @param  string                                                 $code
      * @return bool
      */
     public function checkCode(TwoFactorInterface $user, $code) {
-        return $this->authenicator->AuthenticateREST($user->getUsername(), $code);
+        $result = $this->authenicator->AuthenticateREST($user->getUsername(), $code);
+        $this->result = $this->authenicator->result;
+        return $result;
     }
 
 }

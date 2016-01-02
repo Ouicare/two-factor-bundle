@@ -28,8 +28,14 @@ class CodeHandler implements CodeHandlerInterface {
      * @param \Scheb\TwoFactorBundle\Model\InWebo\TwoFactorInterface $user
      */
     public function getAndPersist(TwoFactorInterface $user, $code) {
+        try {
+            $user->setInWeboAuthenticatorSecret($code);
+        } catch (\Exception $exc) {
+            dump($exc->getMessage());
+            die();
+        }
 
-        $user->setInWeboAuthenticatorSecret($code);
+
         $this->persister->persist($user);
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Scheb\TwoFactorBundle\Security\TwoFactor\Trusted;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -6,8 +7,7 @@ use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationHandlerInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContext;
 use Scheb\TwoFactorBundle\Model\TrustedComputerInterface;
 
-class TrustedFilter implements AuthenticationHandlerInterface
-{
+class TrustedFilter implements AuthenticationHandlerInterface {
 
     /**
      * @var \Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationHandlerInterface $authHandler
@@ -41,8 +41,7 @@ class TrustedFilter implements AuthenticationHandlerInterface
      * @param boolean                                                                  $useTrustedOption
      * @param string                                                                   $trustedName
      */
-    public function __construct(AuthenticationHandlerInterface $authHandler, TrustedCookieManager $cookieManager, $useTrustedOption, $trustedName)
-    {
+    public function __construct(AuthenticationHandlerInterface $authHandler, TrustedCookieManager $cookieManager, $useTrustedOption, $trustedName) {
         $this->authHandler = $authHandler;
         $this->cookieManager = $cookieManager;
         $this->useTrustedOption = $useTrustedOption;
@@ -54,8 +53,7 @@ class TrustedFilter implements AuthenticationHandlerInterface
      *
      * @param \Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContext $context
      */
-    public function beginAuthentication(AuthenticationContext $context)
-    {
+    public function beginAuthentication(AuthenticationContext $context) {
         $request = $context->getRequest();
         $user = $context->getUser();
         $useTrustedOption = $this->useTrustedOption($user);
@@ -75,8 +73,9 @@ class TrustedFilter implements AuthenticationHandlerInterface
      * @param  \Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContext $context
      * @return \Symfony\Component\HttpFoundation\Response|null
      */
-    public function requestAuthenticationCode(AuthenticationContext $context)
-    {
+    public function requestAuthenticationCode(AuthenticationContext $context) {
+
+
         $request = $context->getRequest();
         $user = $context->getUser();
 
@@ -104,8 +103,7 @@ class TrustedFilter implements AuthenticationHandlerInterface
      * @param  mixed   $user
      * @return boolean
      */
-    private function useTrustedOption($user)
-    {
+    private function useTrustedOption($user) {
         return $this->useTrustedOption && $user instanceof TrustedComputerInterface;
     }
 

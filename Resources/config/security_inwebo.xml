@@ -33,7 +33,7 @@
         <service id="scheb_two_factor.security.inwebo.code_validator" alias="scheb_two_factor.security.inwebo.backup_code_validator" />
         <service id="scheb_two_factor.security.inwebo.provider" class="%scheb_two_factor.security.inwebo.provider.class%">
             <tag name="scheb_two_factor.provider" alias="inwebo" />
-            <argument type="service" id="scheb_two_factor.security.inwebo_authenticator" />
+            <argument type="service" id="scheb_two_factor.security.inwebo.code_validator" />
             <argument type="service" id="scheb_two_factor.security.inwebo.code_generator" />
             <argument type="service" id="templating" />
             <argument>%scheb_two_factor.inwebo.template%</argument>
